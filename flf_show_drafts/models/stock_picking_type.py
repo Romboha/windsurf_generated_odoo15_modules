@@ -71,7 +71,7 @@ class StockPickingType(models.Model):
 
 
     def get_picking_type_draft_action(self):
-        action = self._get_action('stock.stock_picking_action_picking_type')
+        action = self.env.ref('stock.stock_picking_action_picking_type').read()[0]
         action['name'] = _('Draft Pickings')
         action['display_name'] = _('Draft Pickings')
         
