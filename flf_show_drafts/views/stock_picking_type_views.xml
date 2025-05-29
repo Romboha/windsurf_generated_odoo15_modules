@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="stock_picking_type_kanban_view_inherit_draft_count" model="ir.ui.view">
+            <field name="name">stock.picking.type.kanban.inherit.draft</field>
+            <field name="model">stock.picking.type</field>
+            <field name="inherit_id" ref="stock.stock_picking_type_kanban"/>
+            <field name="arch" type="xml">
+                <!--
+                    Цей XPath націлений на div-контейнер для посилань/кнопок унизу ліворуч на Kanban-картці.
+                    Ми вставляємо новий лічильник 'Draft' як перший елемент усередині цього контейнера,
+                    щоб він з'являвся над існуючими лічильниками, такими як 'To Process', 'Late', 'Waiting'.
+                -->
+                <xpath expr="//kanban" position="inside">
+                    <field name="show_drafts_enabled" invisible="1"/>
+                </xpath>
+                
+                <xpath expr="//div[hasclass('o_kanban_primary_right')]" position="inside">
+                    <div t-if="record.show_drafts_enabled.raw_value and record.draft_count.raw_value > 0" class="row">
+                        <div class="col-12">
+                            <a class="oe_kanban_stock_picking_type_list" name="get_picking_type_draft_action" type="object">
+                                <field name="draft_count"/>
+                                Draft
+                            </a>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
